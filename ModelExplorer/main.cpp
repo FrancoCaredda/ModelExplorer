@@ -1,8 +1,15 @@
-#include <vulkan/vulkan.h>
-#include <GLFW/glfw3.h>
+#include "ModelExplorer.h"
+#include "ExplorerWindow.h"
 
 int main(int argc, char** argv)
 {
-    glfwInit();
+    ModelExplorer app;
+    app.Init();
+
+    ExplorerWindow window("Model Explorer", 600, 400);
+
+    app.SetCurrentWindow(&window);
+    app.Run();
+
     return 0;
 }
