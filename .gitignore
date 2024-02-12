@@ -1,0 +1,7 @@
+out/
+.vs/
+*.fspv
+*.vspv
+*.html
+*.css
+*.js
