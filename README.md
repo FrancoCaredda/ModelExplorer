@@ -5,12 +5,12 @@ This repository is a logical continuation of the first project [VulkanTriangleAp
 
 ## Implemented features
 
-- [] Basic Setup and Swapchain recreation
-- [] Vertex and Index buffers
-- [] Depth buffers
-- [] Loading *.obj files
-- [] Uniform buffers
-- [] Basic UI with ImGUI
-- [] Full-screen mode
+- [ ] Basic Setup and Swapchain recreation
+- [ ] Vertex and Index buffers
+- [ ] Depth buffers
+- [ ] Loading *.obj files
+- [ ] Uniform buffers
+- [ ] Basic UI with ImGUI
+- [ ] Full-screen mode
 
 ## Application
