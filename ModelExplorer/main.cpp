@@ -3,7 +3,7 @@
 
 int main(int argc, char** argv)
 {
-    ModelExplorer app;
+    ModelExplorer app("ModelExplorer", ModelExplorer::MakeVersion(1, 0, 0, 0));
     app.Init();
 
     ExplorerWindow window("Model Explorer", 600, 400);

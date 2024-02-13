@@ -1,10 +1,14 @@
 #include "AApplication.h"
 
+#include "Provider/VulkanApplicationInfoProvider.h"
+#include "Renderer/Renderer.h"
+
 #include <stdexcept>
 
 static AApplication* s_Application = nullptr;
 
-AApplication::AApplication()
+AApplication::AApplication(const std::string& name, uint32_t version) 
+	: m_Name(name), m_Version(version) 
 {
 	if (s_Application != nullptr)
 		throw std::runtime_error::exception("Only one application can be created within a project!");
@@ -25,6 +29,7 @@ void AApplication::SetCurrentWindow(AWindow* window) noexcept
 void AApplication::Init()
 {
 	InitGLFW();
+	InitRenderer();
 }
 
 void AApplication::Run()
@@ -42,4 +47,10 @@ void AApplication::InitGLFW()
 {
 	if (!glfwInit())
 		throw std::runtime_error::exception("GLFW hasn't been initialized!");
+}
+
+void AApplication::InitRenderer()
+{
+	VulkanApplicationInfoProvider provider;
+	Renderer::GetInstance().Init(provider.Provide(*this));
 }

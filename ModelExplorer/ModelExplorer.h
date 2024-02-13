@@ -6,8 +6,8 @@
 class ModelExplorer : public AApplication
 {
 public:
-	ModelExplorer()
-		: AApplication() {}
+	ModelExplorer(const std::string& name, uint32_t version)
+		: AApplication(name, version) {}
 	~ModelExplorer() = default;
 private:
 
