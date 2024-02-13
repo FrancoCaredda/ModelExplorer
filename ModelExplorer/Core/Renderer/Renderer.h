@@ -17,10 +17,28 @@ public:
 
 	~Renderer();
 private:
+	void InitVulkan(const VkApplicationInfo& info);
+	void InitDebugLayer();
+#ifdef _DEBUG
+private:
+	void LogSupportedInstances() const noexcept;
+	void LogSupportedLayers() const noexcept;
+	static VkBool32 VKAPI_PTR DebugCallback(
+		VkDebugUtilsMessageSeverityFlagBitsEXT           messageSeverity,
+		VkDebugUtilsMessageTypeFlagsEXT                  messageTypes,
+		const VkDebugUtilsMessengerCallbackDataEXT*      pCallbackData,
+		void*											 pUserData
+	);
+#endif // !_DEBUG
+private:
 	Renderer() = default;
+	static Renderer s_Renderer;
+
 
 	VkInstance m_Instance;
-	static Renderer s_Renderer;
+#ifdef _DEBUG
+	VkDebugUtilsMessengerEXT m_DebugLayer;
+#endif
 };
 
 #endif
