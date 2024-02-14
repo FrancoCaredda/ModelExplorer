@@ -2,8 +2,15 @@
 #define _RENDERER_H
 
 #include <vulkan/vulkan.h>
+#include <optional>
 
 #include "Core/Provider/VulkanApplicationInfoProvider.h"
+
+typedef struct QueueFamilyIndices
+{
+	std::optional<uint32_t> graphicsQueueIndex;
+	std::optional<uint32_t> presentationQueueIndex;
+} QueueFamilyIndices_t;
 
 class Renderer
 {
@@ -18,9 +25,12 @@ public:
 	~Renderer();
 private:
 	void InitVulkan(const VkApplicationInfo& info);
-	void InitDebugLayer();
+	void SelectPhysicalDevice();
+	void InitDevice();
+
 #ifdef _DEBUG
 private:
+	void InitDebugLayer();
 	void LogSupportedInstances() const noexcept;
 	void LogSupportedLayers() const noexcept;
 	static VkBool32 VKAPI_PTR DebugCallback(
@@ -34,8 +44,11 @@ private:
 	Renderer() = default;
 	static Renderer s_Renderer;
 
+	QueueFamilyIndices_t m_Indices;
 
 	VkInstance m_Instance;
+	VkPhysicalDevice m_PhysicalDevice;
+	VkDevice m_Device;
 #ifdef _DEBUG
 	VkDebugUtilsMessengerEXT m_DebugLayer;
 #endif
