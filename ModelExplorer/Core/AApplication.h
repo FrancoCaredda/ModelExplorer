@@ -26,7 +26,6 @@ public:
 	void Run();
 private:
 	void InitGLFW();
-	void InitRenderer();
 private:
 	AWindow* m_Window = nullptr;
 	std::string m_Name;

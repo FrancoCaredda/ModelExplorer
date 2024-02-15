@@ -29,7 +29,6 @@ void AApplication::SetCurrentWindow(AWindow* window) noexcept
 void AApplication::Init()
 {
 	InitGLFW();
-	InitRenderer();
 }
 
 void AApplication::Run()
@@ -41,16 +40,12 @@ void AApplication::Run()
 		glfwPollEvents();
 		m_Window->Update(0);
 	}
+
+	Renderer::GetInstance().WaitFor();
 }
 
 void AApplication::InitGLFW()
 {
 	if (!glfwInit())
 		throw std::runtime_error::exception("GLFW hasn't been initialized!");
-}
-
-void AApplication::InitRenderer()
-{
-	VulkanApplicationInfoProvider provider;
-	Renderer::GetInstance().Init(provider.Provide(*this));
 }

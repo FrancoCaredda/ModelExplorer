@@ -10,6 +10,8 @@ public:
 	AWindow(const std::string& title, int width, int height, bool fullscreen = false);
 	virtual ~AWindow();
 
+	inline const GLFWwindow* GetNative() const noexcept { return m_Handle; }
+
 	inline const std::string& GetTitle() const noexcept { return m_Title; }
 	inline int GetWidth() const noexcept { return m_Width; }
 	inline int GetHeight() const noexcept { return m_Height; }
