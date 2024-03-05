@@ -38,6 +38,9 @@ void Renderer::WaitFor()
 
 Renderer::~Renderer()
 {
+	for (auto imageView : m_ImageViews)
+		vkDestroyImageView(m_Device, imageView, nullptr);
+
 	vkDestroySwapchainKHR(m_Device, m_Swapchain, nullptr);
 	vkDestroySurfaceKHR(m_Instance, m_Surface, nullptr);
 #ifdef _DEBUG
