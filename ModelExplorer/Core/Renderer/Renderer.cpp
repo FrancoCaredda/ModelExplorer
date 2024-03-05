@@ -23,6 +23,7 @@ void Renderer::Init(const VulkanApplicationInfoProvider::ProviderInfo& info,
 	SelectPhysicalDevice();
 	InitDevice();
 	InitSwapchain();
+	InitImageViews();
 
 #ifdef _DEBUG	
 	LogSupportedDeviceLayers();
@@ -227,6 +228,44 @@ void Renderer::InitSwapchain()
 
 	if (vkCreateSwapchainKHR(m_Device, &swapchain, nullptr, &m_Swapchain) != VK_SUCCESS)
 		throw std::runtime_error::exception("Swapchain hasn't been created!");
+}
+
+void Renderer::InitImageViews()
+{
+	auto format = GetSurfaceFormat();
+
+	uint32_t count;
+	vkGetSwapchainImagesKHR(m_Device, m_Swapchain, &count, 0);
+
+	std::vector<VkImage> images;
+	vkGetSwapchainImagesKHR(m_Device, m_Swapchain, &count, images.data());
+
+	m_ImageViews.reserve(count);
+
+	for (auto image : images)
+	{
+		VkImageViewCreateInfo imageViewCreateInfo{};
+		imageViewCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+		imageViewCreateInfo.format = format.format;
+		imageViewCreateInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+		imageViewCreateInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+		imageViewCreateInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+		imageViewCreateInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+		imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+		imageViewCreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+		imageViewCreateInfo.subresourceRange.baseArrayLayer = 0;
+		imageViewCreateInfo.subresourceRange.baseMipLevel = 0;
+		imageViewCreateInfo.subresourceRange.layerCount = 1;
+		imageViewCreateInfo.subresourceRange.levelCount = 1;
+		imageViewCreateInfo.image = image;
+
+
+		VkImageView imageView;
+		if (vkCreateImageView(m_Device, &imageViewCreateInfo, nullptr, &imageView) != VK_SUCCESS)
+			throw std::runtime_error::exception("Image view hasn't been created!");
+
+		m_ImageViews.push_back(imageView);
+	}
 }
 
 VkSurfaceFormatKHR Renderer::GetSurfaceFormat() const noexcept

@@ -2,6 +2,7 @@
 #define _RENDERER_H
 
 #include <vulkan/vulkan.h>
+#include <vector>
 #include <optional>
 
 #include "Core/Provider/VulkanApplicationInfoProvider.h"
@@ -32,6 +33,7 @@ private:
 	void SelectPhysicalDevice();
 	void InitDevice();
 	void InitSwapchain();
+	void InitImageViews();
 
 	VkSurfaceFormatKHR GetSurfaceFormat() const noexcept;
 	VkExtent2D GetSurfaceExtent() const noexcept;
@@ -62,6 +64,7 @@ private:
 	VkDevice m_Device;
 	VkSurfaceKHR m_Surface;
 	VkSwapchainKHR m_Swapchain;
+	std::vector<VkImageView> m_ImageViews;
 #ifdef _DEBUG
 	VkDebugUtilsMessengerEXT m_DebugLayer;
 #endif
